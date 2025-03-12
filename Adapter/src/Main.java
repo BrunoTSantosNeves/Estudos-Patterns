@@ -99,7 +99,7 @@ class SistemaAntigo {
     }
 }
 
-// Interface para conversão de dados (Flexível para qualquer tipo de conversão)
+
 interface DataConverter {
     String convert(String data);
 }
@@ -122,7 +122,7 @@ class Adaptador {
         this.converter = converter;
     }
 
-    public String getData() { // Agora retorna diretamente a String convertida
+    public String getData() {
         String xmlData = sistemaAntigo.getXMLData();
         return converter.convert(xmlData);
     }
