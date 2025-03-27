@@ -1,33 +1,58 @@
 import fs from 'fs';
 import path from 'path';
-import { User } from '../User';
 
-const DATA_FILE = path.join(__dirname, '../data/db.json');
+const DB_FILE = path.join(__dirname, '../../data/db.json');
 
-export class JsonDatabase {
-    private readData(): User[] {
-        if (!fs.existsSync(DATA_FILE)) {
-            fs.writeFileSync(DATA_FILE, JSON.stringify([], null, 2));
+export default class JsonDatabase {
+    private loadDatabase(): any {
+        try {
+            const data = fs.readFileSync(DB_FILE, 'utf-8');
+            return JSON.parse(data);
+        } catch (error) {
+            return {};
         }
-        const data = fs.readFileSync(DATA_FILE, 'utf-8');
-        return JSON.parse(data) as User[];
     }
 
-    private writeData(users: User[]): void {
-        fs.writeFileSync(DATA_FILE, JSON.stringify(users, null, 2));
+    private saveDatabase(data: any): void {
+        fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf-8');
     }
 
-    getAllUsers(): User[] {
-        return this.readData();
+    getAll(collection: string): any[] {
+        const db = this.loadDatabase();
+        return db[collection] || [];
     }
 
-    getUserById(id: string): User | undefined {
-        return this.readData().find(user => user.id === id);
+    getById(collection: string, id: string): any | null {
+        const db = this.loadDatabase();
+        return db[collection]?.find((item: any) => item.id === id) || null;
     }
 
-    addUser(user: User): void {
-        const users = this.readData();
-        users.push(user);
-        this.writeData(users);
+    insert(collection: string, data: any): void {
+        const db = this.loadDatabase();
+        if (!db[collection]) db[collection] = [];
+        // Gerar um ID simples para o novo registro
+        data.id = String(Date.now());
+        db[collection].push(data);
+        this.saveDatabase(db);
+    }
+
+    update(collection: string, id: string, newData: any): boolean {
+        const db = this.loadDatabase();
+        if (!db[collection]) return false;
+        const index = db[collection].findIndex((item: any) => item.id === id);
+        if (index === -1) return false;
+        db[collection][index] = { ...db[collection][index], ...newData };
+        this.saveDatabase(db);
+        return true;
+    }
+
+    // Renomei o método de "delete" para "remove" para evitar conflito com a palavra reservada
+    remove(collection: string, id: string): boolean {
+        const db = this.loadDatabase();
+        if (!db[collection]) return false;
+        const initialLength = db[collection].length;
+        db[collection] = db[collection].filter((item: any) => item.id !== id);
+        this.saveDatabase(db);
+        return db[collection].length < initialLength;
     }
 }
