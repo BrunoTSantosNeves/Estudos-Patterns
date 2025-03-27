@@ -46,7 +46,7 @@ export default class JsonDatabase {
         return true;
     }
 
-    // Renomei o método de "delete" para "remove" para evitar conflito com a palavra reservada
+    
     remove(collection: string, id: string): boolean {
         const db = this.loadDatabase();
         if (!db[collection]) return false;

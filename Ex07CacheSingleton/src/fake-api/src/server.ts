@@ -60,5 +60,5 @@ app.delete('/users/:id', (req: Request, res: Response): void => {
 
 // Iniciar o servidor
 app.listen(PORT, () => {
-    console.log(`🚀 Servidor rodando em http://localhost:${PORT}`);
+    console.log(` Servidor rodando em http://localhost:${PORT}`);
 });
