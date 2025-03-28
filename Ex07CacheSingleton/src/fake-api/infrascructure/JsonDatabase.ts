@@ -30,7 +30,7 @@ export default class JsonDatabase {
     insert(collection: string, data: any): void {
         const db = this.loadDatabase();
         if (!db[collection]) db[collection] = [];
-        // Gerar um ID simples para o novo registro
+
         data.id = String(Date.now());
         db[collection].push(data);
         this.saveDatabase(db);

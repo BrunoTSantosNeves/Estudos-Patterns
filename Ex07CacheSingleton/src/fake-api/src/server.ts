@@ -1,12 +1,14 @@
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import JsonDatabase from '../infrascructure/JsonDatabase';
+import userRoutes from './routes/users';
 
 const app: Application = express();
 const db = new JsonDatabase();
 const PORT = 3001;
 
 app.use(bodyParser.json());
+app.use(userRoutes); // Adicionando as rotas de usuários
 
 // Buscar todos os usuários
 app.get('/users', (req: Request, res: Response): void => {
@@ -60,5 +62,5 @@ app.delete('/users/:id', (req: Request, res: Response): void => {
 
 // Iniciar o servidor
 app.listen(PORT, () => {
-    console.log(` Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
