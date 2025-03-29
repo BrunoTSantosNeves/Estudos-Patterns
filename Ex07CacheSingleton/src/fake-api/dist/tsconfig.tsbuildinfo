@@ -1,0 +1,1 @@
+{"root":["../src/server.ts","../src/application/userservice.ts","../src/routes/users.ts","../infrastructure/jsondatabase.ts"],"errors":true,"version":"5.8.2"}

@@ -1,15 +1,17 @@
 "use strict";
-const __importDefault = (this && this.__importDefault) || function (mod) {
+var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const JsonDatabase_1 = __importDefault(require("../infrascructure/JsonDatabase"));
+const JsonDatabase_1 = __importDefault(require("../infrastructure/JsonDatabase"));
+const users_1 = __importDefault(require("./routes/users"));
 const app = (0, express_1.default)();
 const db = new JsonDatabase_1.default();
 const PORT = 3001;
 app.use(body_parser_1.default.json());
+app.use(users_1.default); // Adicionando as rotas de usuários
 // Buscar todos os usuários
 app.get('/users', (req, res) => {
     const users = db.getAll('users');
@@ -54,5 +56,5 @@ app.delete('/users/:id', (req, res) => {
 });
 // Iniciar o servidor
 app.listen(PORT, () => {
-    console.log(` Servidor rodando em http://localhost:${PORT}`);
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

@@ -1,57 +1,39 @@
+import JsonDatabase from "../../infrastructure/JsonDatabase";
+
 interface User {
-    id: number;
-    name: string;
-    email: string;
+  id: number;
+  name: string;
+  email: string;
+}
+
+export class UserService {
+  private db: JsonDatabase;
+  private collection: string = "users";
+
+  constructor() {
+    this.db = new JsonDatabase();
   }
-  
-  export class UserService {
-    private users: User[] = [];
-  
-    constructor() {
-      // Dados iniciais para teste
-      this.users = [
-        { id: 1, name: "Alice", email: "alice@example.com" },
-        { id: 2, name: "Bob", email: "bob@example.com" }
-      ];
-    }
-  
-    // Retorna todos os usuários
-    getAllUsers(): User[] {
-      return this.users;
-    }
-  
-    // Busca um usuário pelo ID
-    getUserById(id: number): User | undefined {
-      return this.users.find(user => user.id === id);
-    }
-  
-    // Adiciona um novo usuário
-    addUser(user: User): User {
-      user.id = this.users.length + 1;
-      this.users.push(user);
-      return user;
-    }
-  
-    // Atualiza um usuário existente
-    updateUser(id: number, updatedUser: Partial<User>): boolean {
-      const index = this.users.findIndex(user => user.id === id);
-      if (index === -1) {
-        return false; // Usuário não encontrado
-      }
-  
-      this.users[index] = { ...this.users[index], ...updatedUser };
-      return true;
-    }
-  
-    // Remove um usuário pelo ID
-    deleteUser(id: number): boolean {
-      const index = this.users.findIndex(user => user.id === id);
-      if (index === -1) {
-        return false; // Usuário não encontrado
-      }
-  
-      this.users.splice(index, 1);
-      return true;
-    }
+
+  getAllUsers(): User[] {
+    return this.db.getAll(this.collection);
   }
-  
+
+  getUserById(id: number): User | null {
+    return this.db.getById(this.collection, id.toString());
+  }
+
+  addUser(user: Omit<User, "id">): User {
+    const users = this.getAllUsers();
+    const newUser: User = { id: users.length + 1, ...user };
+    this.db.insert(this.collection, newUser);
+    return newUser;
+  }
+
+  updateUser(id: number, updatedData: Partial<Omit<User, "id">>): boolean {
+    return this.db.update(this.collection, id.toString(), updatedData);
+  }
+
+  deleteUser(id: number): boolean {
+    return this.db.remove(this.collection, id.toString());
+  }
+}

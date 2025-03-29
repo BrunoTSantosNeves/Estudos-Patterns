@@ -1,6 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import JsonDatabase from '../infrascructure/JsonDatabase';
+import JsonDatabase from '../infrastructure/JsonDatabase';
 import userRoutes from './routes/users';
 
 const app: Application = express();

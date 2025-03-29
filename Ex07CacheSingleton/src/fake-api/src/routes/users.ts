@@ -15,7 +15,7 @@ router.get("/users/:id", (req: Request, res: Response): void => {
   const user = userService.getUserById(userId);
   if (!user) {
     res.status(404).json({ error: "Usuário não encontrado" });
-    return; // garantia de retorno void
+    return; 
   }
   res.json(user);
 });
@@ -27,7 +27,7 @@ router.post("/users", (req: Request, res: Response): void => {
     res.status(400).json({ error: "Nome e email são obrigatórios" });
     return;
   }
-  const newUser = userService.addUser({ id: 0, name, email });
+  const newUser = userService.addUser({ name, email });
   res.status(201).json(newUser);
 });
 

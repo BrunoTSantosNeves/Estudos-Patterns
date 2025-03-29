@@ -1,4 +1,4 @@
-package infraestructure;
+package infra;
 
 import core.CacheRepository;
 import java.util.Map;
