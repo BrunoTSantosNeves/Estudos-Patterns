@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
-const JsonDatabase_ts_1 = __importDefault(require("../infrastructure/JsonDatabase.ts"));
+const JsonDatabase_1 = __importDefault(require("../../infrastructure/JsonDatabase"));
 class UserService {
     constructor() {
         this.collection = "users";
-        this.db = new JsonDatabase_ts_1.default();
+        this.db = new JsonDatabase_1.default();
     }
     getAllUsers() {
         return this.db.getAll(this.collection);
