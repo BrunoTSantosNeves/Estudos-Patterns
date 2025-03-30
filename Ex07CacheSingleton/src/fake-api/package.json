@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc && if not exist dist\\data mkdir dist\\data && xcopy /Y /I src\\data\\db.json dist\\data\\db.json",
+    "start": "node dist/test/seed.js"
   },
   "keywords": [],
   "author": "",

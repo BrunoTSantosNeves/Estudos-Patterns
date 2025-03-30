@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const DB_FILE = path_1.default.join(__dirname, '../../data/db.json');
+const DB_FILE = path_1.default.join(__dirname, "../data/db.json");
 class JsonDatabase {
     loadDatabase() {
         try {

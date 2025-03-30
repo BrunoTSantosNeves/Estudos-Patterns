@@ -1,8 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const DB_FILE = path.join(__dirname, '../../data/db.json');
-
+const DB_FILE = path.join(__dirname, "../data/db.json");
 export default class JsonDatabase {
     private loadDatabase(): any {
         try {

@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": "1743352754037",
+      "name": "Carlos Almeida",
+      "email": "carlos@email.com"
+    },
+    {
+      "id": "1743352754082",
+      "name": "Fernanda Costa",
+      "email": "fernanda@email.com"
+    },
+    {
+      "id": "1743352754107",
+      "name": "Lucas Pereira",
+      "email": "lucas@email.com"
+    }
+  ]
+}
