@@ -1,10 +1,9 @@
 package infra;
 
 import core.CacheRepository;
-import javax.sql.DataSource;
+
 import java.sql.*;
 import java.time.LocalDateTime;
-
 
 public class MySQLCache implements CacheRepository {
     private static final String CREATE_TABLE_SQL = """
@@ -23,17 +22,15 @@ public class MySQLCache implements CacheRepository {
     """;
     private static final String DELETE_EXPIRED_SQL = "DELETE FROM cache WHERE TIMESTAMPDIFF(SECOND, created_at, NOW()) > ?";
     
-    private final DataSource dataSource;
     private final long ttl;
 
-    public MySQLCache(DataSource dataSource, long ttl) {
-        this.dataSource = dataSource;
+    public MySQLCache(long ttl) {
         this.ttl = ttl;
         createTableIfNotExists();
     }
 
     private void createTableIfNotExists() {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DatabaseConnection.getDataSource().getConnection();
              PreparedStatement stmt = connection.prepareStatement(CREATE_TABLE_SQL)) {
             stmt.execute();
         } catch (SQLException e) {
@@ -43,7 +40,7 @@ public class MySQLCache implements CacheRepository {
 
     @Override
     public String get(String key) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DatabaseConnection.getDataSource().getConnection();
              PreparedStatement stmt = connection.prepareStatement(SELECT_SQL)) {
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
@@ -64,7 +61,7 @@ public class MySQLCache implements CacheRepository {
 
     @Override
     public void set(String key, String value) {
-        try (Connection connection = dataSource.getConnection();
+        try (Connection connection = DatabaseConnection.getDataSource().getConnection();
              PreparedStatement stmt = connection.prepareStatement(INSERT_UPDATE_SQL)) {
             stmt.setString(1, key);
             stmt.setString(2, value);
